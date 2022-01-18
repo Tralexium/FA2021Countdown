@@ -1,0 +1,22 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Scenes/3D/DiscoFloor.gd" type="Script" id=1]
+
+[sub_resource type="SpatialMaterial" id=3]
+vertex_color_use_as_albedo = true
+
+[sub_resource type="PlaneMesh" id=1]
+material = SubResource( 3 )
+size = Vector2( 5, 5 )
+
+[sub_resource type="MultiMesh" id=2]
+color_format = 1
+transform_format = 1
+mesh = SubResource( 1 )
+
+[node name="DiscoFloor" type="MultiMeshInstance"]
+multimesh = SubResource( 2 )
+script = ExtResource( 1 )
+
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.896571, 0.442899, 0, -0.442899, 0.896571, 0, 13.7916, 19.4128 )
