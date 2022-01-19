@@ -3,6 +3,8 @@
 [ext_resource path="res://Scenes/3D/DiscoFloor.gd" type="Script" id=1]
 
 [sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_unshaded = true
 vertex_color_use_as_albedo = true
 
 [sub_resource type="PlaneMesh" id=1]
@@ -19,4 +21,9 @@ multimesh = SubResource( 2 )
 script = ExtResource( 1 )
 
 [node name="Camera" type="Camera" parent="."]
-transform = Transform( 1, 0, 0, 0, 0.896571, 0.442899, 0, -0.442899, 0.896571, 0, 13.7916, 19.4128 )
+transform = Transform( 1, 0, 0, 0, 0.146687, 0.989183, 0, -0.989183, 0.146687, 0, 128.438, 17.5249 )
+far = 310.0
+
+[node name="CycleDuration" type="Timer" parent="."]
+
+[connection signal="timeout" from="CycleDuration" to="." method="_on_CycleDuration_timeout"]
