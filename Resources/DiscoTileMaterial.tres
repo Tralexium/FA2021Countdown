@@ -29,6 +29,6 @@ void fragment() {
 
 [resource]
 shader = SubResource( 3 )
-shader_param/max_jump_dist = 20.0
-shader_param/jump_color_intensity = 9.0
+shader_param/max_jump_dist = 30.0
+shader_param/jump_color_intensity = 15.0
 shader_param/noise_map = ExtResource( 1 )
