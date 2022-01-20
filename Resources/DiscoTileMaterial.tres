@@ -10,13 +10,14 @@ render_mode unshaded;
 
 // CUSTOM DATA FORMAT: grid_pos.x, grid_pos.y, grid_size, intensity
 uniform float max_jump_dist;
+uniform float jump_color_intensity;
 uniform sampler2D noise_map : hint_black;
 
 
 void vertex() {
 	float _intensity = texture(noise_map, vec2(INSTANCE_CUSTOM.x, INSTANCE_CUSTOM.y) / vec2(INSTANCE_CUSTOM.z)).r * INSTANCE_CUSTOM.a;
 	VERTEX.y += _intensity * max_jump_dist;
-	COLOR.rgb = mix(COLOR.rgb, vec3(1.0), _intensity);
+	COLOR.rgb = mix(COLOR.rgb, vec3(1.0), _intensity * jump_color_intensity);
 }
 
 
@@ -29,4 +30,5 @@ void fragment() {
 [resource]
 shader = SubResource( 3 )
 shader_param/max_jump_dist = 20.0
+shader_param/jump_color_intensity = 9.0
 shader_param/noise_map = ExtResource( 1 )

@@ -1,11 +1,11 @@
 extends MultiMeshInstance
 
-export(int) var disco_floor_size = 50
+export(int) var disco_floor_size = 40
 export(float) var tile_margin = 6.0
 # From DiscoTile Scene
 export(Gradient) var color_gradient = preload("res://Resources/disco_tiles_default_gradient.tres")
 export(float) var cycle_duration = 3.0
-export(float) var max_cycle_offset = 1.0
+export(float) var max_cycle_offset = 0.5
 export(float) var jump_dist = 2.0
 export(float) var jump_dur = 2.0
 
