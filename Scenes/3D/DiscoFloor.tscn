@@ -1,19 +1,16 @@
 [gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Scenes/3D/DiscoFloor.gd" type="Script" id=1]
-
-[sub_resource type="SpatialMaterial" id=3]
-flags_transparent = true
-flags_unshaded = true
-vertex_color_use_as_albedo = true
+[ext_resource path="res://Resources/DiscoTileMaterial.tres" type="Material" id=2]
 
 [sub_resource type="PlaneMesh" id=1]
-material = SubResource( 3 )
+material = ExtResource( 2 )
 size = Vector2( 5, 5 )
 
 [sub_resource type="MultiMesh" id=2]
 color_format = 1
 transform_format = 1
+custom_data_format = 2
 mesh = SubResource( 1 )
 
 [node name="DiscoFloor" type="MultiMeshInstance"]
@@ -25,5 +22,5 @@ transform = Transform( 1, 0, 0, 0, 0.146687, 0.989183, 0, -0.989183, 0.146687, 0
 far = 310.0
 
 [node name="CycleDuration" type="Timer" parent="."]
-
-[connection signal="timeout" from="CycleDuration" to="." method="_on_CycleDuration_timeout"]
+wait_time = 0.6
+autostart = true

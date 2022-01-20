@@ -1,0 +1,32 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://Assets/disco_floor_noise_map.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=3]
+code = "// NOTE: Shader automatically converted from Godot Engine 3.4.2.stable's SpatialMaterial.
+
+shader_type spatial;
+render_mode unshaded;
+
+// CUSTOM DATA FORMAT: grid_pos.x, grid_pos.y, grid_size, intensity
+uniform float max_jump_dist;
+uniform sampler2D noise_map : hint_black;
+
+
+void vertex() {
+	float _intensity = texture(noise_map, vec2(INSTANCE_CUSTOM.x, INSTANCE_CUSTOM.y) / vec2(INSTANCE_CUSTOM.z)).r * INSTANCE_CUSTOM.a;
+	VERTEX.y += _intensity * max_jump_dist;
+	COLOR.rgb = mix(COLOR.rgb, vec3(1.0), _intensity);
+}
+
+
+void fragment() {
+	ALBEDO.rgb = COLOR.rgb;
+	ALPHA = COLOR.a;
+}
+"
+
+[resource]
+shader = SubResource( 3 )
+shader_param/max_jump_dist = 20.0
+shader_param/noise_map = ExtResource( 1 )
