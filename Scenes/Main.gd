@@ -1,9 +1,9 @@
 extends Node
 
-export(float) var min_db = 50.0
+export(float) var min_db = 28.0
 export(float) var min_freq = 0.0
-export(float) var max_freq = 40.0
-export(float) var shrink_spd = 0.4
+export(float) var max_freq = 5000.0
+export(float) var shrink_spd = 0.7
 
 onready var nDiscoFloor := $DiscoFloor
 var spectrum : AudioEffectInstance
@@ -18,7 +18,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	var magnitude : float = spectrum.get_magnitude_for_frequency_range(min_freq, max_freq).length()
-	energy = clamp((min_db + linear2db(magnitude)) / min_db, 0, 1)
+	energy = clamp(((min_db + linear2db(magnitude)) / min_db)*2.5, 0, 1)
 	if energy < prev_energy:
 		energy = prev_energy - (shrink_spd*delta)
 	prev_energy = energy
