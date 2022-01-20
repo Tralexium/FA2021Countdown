@@ -8,7 +8,7 @@ onready var nMinuteTwo := $Minute2
 onready var nColumn := $TimerColumn
 onready var nSecondOne := $Second
 onready var nSecondTwo := $Second2
-onready var nAnimationPlayer := $AnimationPlayer
+onready var nTimer := $Timer
 
 var paused := true
 
@@ -25,11 +25,12 @@ func _ready() -> void:
 
 
 func start_timer() -> void:
+	nTimer.start()
 	paused = false
-	_count_down()
 
 
 func pause_timer() -> void:
+	nTimer.stop()
 	paused = true
 
 
@@ -48,8 +49,6 @@ func _count_down() -> void:
 		return
 	
 	_set_all_current_numbers()
-	yield(get_tree().create_timer(1.0), "timeout")
-	_count_down()
 
 
 func _set_all_current_numbers():
@@ -60,3 +59,7 @@ func _set_all_current_numbers():
 	# Setup seconds
 	nSecondOne.set_with_animation(floor(timer_seconds / 10))
 	nSecondTwo.set_with_animation(timer_seconds % 10)
+
+
+func _on_Timer_timeout() -> void:
+	_count_down()
