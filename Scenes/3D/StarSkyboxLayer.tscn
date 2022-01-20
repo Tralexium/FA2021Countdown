@@ -1,0 +1,43 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_2.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_5.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_4.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_3.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_1.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_6.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Animated Stars Textures/animated_stars_7.png" type="Texture" id=7]
+
+[sub_resource type="SphereMesh" id=1]
+
+[sub_resource type="AnimatedTexture" id=2]
+flags = 19
+frames = 7
+fps = 6.0
+frame_0/texture = ExtResource( 5 )
+frame_1/texture = ExtResource( 1 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 4 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 3 )
+frame_3/delay_sec = 0.0
+frame_4/texture = ExtResource( 2 )
+frame_4/delay_sec = 0.0
+frame_5/texture = ExtResource( 6 )
+frame_5/delay_sec = 0.0
+frame_6/texture = ExtResource( 7 )
+frame_6/delay_sec = 0.0
+
+[sub_resource type="SpatialMaterial" id=3]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_cull_mode = 1
+albedo_texture = SubResource( 2 )
+uv1_scale = Vector3( 8, 4, 1 )
+
+[node name="StarSkyboxLayer" type="MeshInstance"]
+transform = Transform( 200, 0, 0, 0, 200, 0, 0, 0, 200, 0, 0, 0 )
+mesh = SubResource( 1 )
+software_skinning_transform_normals = false
+material/0 = SubResource( 3 )

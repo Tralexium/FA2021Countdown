@@ -18,7 +18,7 @@ func _ready() -> void:
 		for z in range(disco_floor_size/-2, disco_floor_size/2):
 			var _x_offset = x * tile_margin
 			var _z_offset = z * tile_margin
-			multimesh.set_instance_transform(i, Transform(Basis(), Vector3(_x_offset, -5, _z_offset)))
+			multimesh.set_instance_transform(i, Transform(Basis(), Vector3(_x_offset, 0, _z_offset)))
 			
 			tile_alphas.append(
 				max(pow(cos(PI*x / float(disco_floor_size)), 2.5), 0.0) * max(pow(cos(PI*z / float(disco_floor_size)), 2.5), 0.0)
