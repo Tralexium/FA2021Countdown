@@ -7,6 +7,7 @@ export(float) var shrink_spd = 0.7
 
 onready var nDiscoFloor := $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer := $"3DWorld/StarSkyboxLayer"
+onready var nTween := $Tween
 var spectrum : AudioEffectInstance
 var energy : float
 var prev_energy : float
@@ -15,8 +16,10 @@ var prev_energy : float
 func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 	$Music.seek(30)
-
 	$WorldEnvironment.get_environment().set_sky_orientation(Basis().rotated(Vector3(-1, 0, 0).normalized(), PI/20))
+	
+#	nDiscoFloor.next_color()
+
 
 func _process(delta: float) -> void:
 	var magnitude : float = spectrum.get_magnitude_for_frequency_range(min_freq, max_freq).length()
@@ -28,3 +31,7 @@ func _process(delta: float) -> void:
 	nDiscoFloor.intensity = energy
 	nDiscoFloor.rotate_y(0.1*delta)
 	nStarSkyboxLayer.rotate_y(0.025*delta)
+
+
+func _change_color_schemes() -> void:
+	pass

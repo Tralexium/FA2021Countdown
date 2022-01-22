@@ -37,3 +37,5 @@ autoplay = true
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = ExtResource( 6 )
+
+[node name="Tween" type="Tween" parent="."]

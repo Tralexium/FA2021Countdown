@@ -1,14 +1,18 @@
 extends MultiMeshInstance
 
-export(int) var disco_floor_size = 40
-export(float, 0, 1) var intensity = 0
-export(float) var tile_margin = 6.0
+export(int) var disco_floor_size := 40
+export(float, 0, 1) var intensity := 0.0
+export(float) var tile_margin := 6.0
 # From DiscoTile Scene
-export(Gradient) var color_gradient = preload("res://Resources/disco_tiles_default_gradient.tres")
-export(float) var max_cycle_offset = 0.2
+export(Array, Gradient) var color_gradient : Array
+export(float) var max_cycle_offset := 0.2
+
+onready var nTween := $Tween
 
 var tile_alphas : Array
-var timer : float
+var timer := 0.0
+var current_gradient_id := 0
+var next_gradient_strength := 0.0
 
 
 func _ready() -> void:
@@ -34,7 +38,21 @@ func _process(delta: float) -> void:
 		
 		timer += delta*0.0001
 		var _offset : float = fmod((timer + _rand_cycle_offset), 1.0)
-		var _final_col : Color = color_gradient.interpolate(_offset)
+		var _total_gradients := color_gradient.size()
+		var _current_grad_col : Color = color_gradient[current_gradient_id % _total_gradients].interpolate(_offset)
+		var _next_grad_col : Color = color_gradient[(current_gradient_id + 1) % _total_gradients].interpolate(_offset)
+		var _final_col : Color = _current_grad_col.linear_interpolate(_next_grad_col, next_gradient_strength)
 		_final_col.a = tile_alphas[i]
 		multimesh.set_instance_color(i, _final_col)
 		multimesh.set_instance_custom_data(i, Color(float(i % disco_floor_size), float(floor(i / disco_floor_size)), float(disco_floor_size), intensity))  # pass the intensity
+
+
+func next_color(transition_dur_ : float = 3.0) -> void:
+	if !nTween.is_active():
+		nTween.interpolate_property(self, 'next_gradient_strength', 0.0, 1.0, transition_dur_, Tween.TRANS_LINEAR, Tween.EASE_IN)
+		nTween.start()
+
+
+func _on_Tween_tween_all_completed() -> void:
+	next_gradient_strength = 0.0
+	current_gradient_id += 1

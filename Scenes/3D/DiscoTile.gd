@@ -1,6 +1,6 @@
 extends Sprite3D
 
-export(Gradient) var color_gradient = preload("res://Resources/disco_tiles_default_gradient.tres")
+export(Gradient) var color_gradient = preload("res://Resources/disco_floor_gradient_1.tres")
 export(float) var cycle_duration = 3.0
 export(float) var max_cycle_offset = 1.0
 export(Color) var jump_color = Color.white
