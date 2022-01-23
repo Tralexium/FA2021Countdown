@@ -4,8 +4,8 @@ export(float, 0.0, 1.0) var mix_strength : float = 0.0
 
 var color_set := [
 	preload("res://Resources/env_colors_1.tres"),
-	preload("res://Resources/env_colors_3.tres"),
 	preload("res://Resources/env_colors_2.tres"),
+	preload("res://Resources/env_colors_3.tres"),
 ]
 var sky_top_color : Color
 var sky_horizon_color : Color

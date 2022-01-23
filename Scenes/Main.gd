@@ -8,8 +8,8 @@ export(float) var strength := 1.5
 
 onready var music_playlist := [
 	preload("res://Assets/Music/track_1.mp3"),
-	preload("res://Assets/Music/track_3.mp3"),
 	preload("res://Assets/Music/track_2.mp3"),
+	preload("res://Assets/Music/track_3.mp3"),
 ]
 
 onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
@@ -25,8 +25,6 @@ var current_track_id := 0
 
 func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
-
-	_on_Music_finished()
 
 	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
 	nTween.start()
@@ -55,8 +53,13 @@ func _on_Music_finished() -> void:
 		match current_track_id:
 			1:
 				min_db = 32.0
+				# Tween out the bubbles
+				# Tween in the clouds
 			2:
 				min_db = 34.0
+				# Tween out the clouds
+				# Tween in the stars
+		
 		nMusic.stream = music_playlist[current_track_id]
 		nMusic.play()
 		nSkyBox.next_color()
