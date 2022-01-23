@@ -1,29 +1,33 @@
 extends Node
 
-export(float) var min_db := 28.0
+export(float) var min_db := 30.0
 export(float) var min_freq := 0.0
-export(float) var max_freq := 25000.0
-export(float) var shrink_spd := 0.7
+export(float) var max_freq := 15000.0
+export(float) var shrink_spd := 0.8
 export(float) var strength := 1.5
 
 onready var music_playlist := [
 	preload("res://Assets/Music/track_1.mp3"),
-	preload("res://Assets/Music/track_2.mp3"),
 	preload("res://Assets/Music/track_3.mp3"),
+	preload("res://Assets/Music/track_2.mp3"),
 ]
 
 onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer : MeshInstance = $"3DWorld/StarSkyboxLayer"
 onready var nSkyBox : MeshInstance = $"3DWorld/SkyBox"
 onready var nTween : Tween = $Tween
+onready var nMusic : AudioStreamPlayer = $Music
 var spectrum : AudioEffectInstance
 var energy : float
 var prev_energy : float
+var current_track_id := 0
 
 
 func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
-	
+
+	_on_Music_finished()
+
 	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
 	nTween.start()
 
@@ -46,4 +50,14 @@ func _change_color_schemes() -> void:
 
 
 func _on_Music_finished() -> void:
-	pass # Replace with function body.
+	current_track_id += 1
+	if current_track_id < music_playlist.size():
+		match current_track_id:
+			1:
+				min_db = 32.0
+			2:
+				min_db = 34.0
+		nMusic.stream = music_playlist[current_track_id]
+		nMusic.play()
+		nSkyBox.next_color()
+		nDiscoFloor.next_color()

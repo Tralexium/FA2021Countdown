@@ -6,7 +6,7 @@ export(float) var tile_margin := 6.0
 export(float) var opacity := 1.0
 # From DiscoTile Scene
 export(Array, Gradient) var color_gradient : Array
-export(float) var max_cycle_offset := 0.2
+export(float) var max_cycle_offset := 0.1
 
 onready var nTween := $Tween
 

@@ -4,8 +4,8 @@ export(float, 0.0, 1.0) var mix_strength : float = 0.0
 
 var color_set := [
 	preload("res://Resources/env_colors_1.tres"),
-	preload("res://Resources/env_colors_2.tres"),
 	preload("res://Resources/env_colors_3.tres"),
+	preload("res://Resources/env_colors_2.tres"),
 ]
 var sky_top_color : Color
 var sky_horizon_color : Color
@@ -41,7 +41,7 @@ func _update_color_vars() -> void:
 	ground_horizon_color  = cur_set.get_color(2).linear_interpolate(next_set.get_color(2), mix_strength)
 	ground_bottom_color   = cur_set.get_color(3).linear_interpolate(next_set.get_color(3), mix_strength)
 	get_active_material(0).set_shader_param("sky_col", sky_top_color)
-	get_active_material(0).set_shader_param("sky_horizon_col", sky_horizon_color)
+	get_active_material(0).set_shader_param("horizon_col", sky_horizon_color)
 	get_active_material(0).set_shader_param("ground_col", ground_bottom_color)
 	get_active_material(0).set_shader_param("ground_horizon_col", ground_horizon_color)
 
