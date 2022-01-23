@@ -1,0 +1,46 @@
+[gd_resource type="ShaderMaterial" load_steps=3 format=2]
+
+[ext_resource path="res://Assets/skybox_texture.png" type="Texture" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type spatial;
+render_mode cull_front, unshaded;
+
+uniform sampler2D tex : hint_albedo;
+uniform float horizon_point : hint_range(0.0, 1.0) = 0.5;
+uniform float horizon_length;
+uniform float ground_horizon_length;
+uniform float horizon_blend_length;
+uniform vec4 sky_col : hint_color;
+uniform vec4 horizon_col : hint_color;
+uniform vec4 ground_horizon_col : hint_color;
+uniform vec4 ground_col : hint_color;
+
+
+void fragment() {
+	vec4 _final_col = vec4(0.0);
+	
+	if(SCREEN_UV.y > horizon_point + horizon_blend_length) {
+		_final_col = mix(horizon_col, sky_col, smoothstep(horizon_point + horizon_blend_length, horizon_point + horizon_length, SCREEN_UV.y));
+	}
+	else if (SCREEN_UV.y < horizon_point + horizon_blend_length && SCREEN_UV.y > horizon_point - horizon_blend_length) {
+		_final_col = mix(ground_horizon_col, horizon_col, smoothstep(horizon_point - horizon_blend_length, horizon_point + horizon_blend_length, SCREEN_UV.y));
+	}
+	else {
+		_final_col = mix(ground_col, ground_horizon_col, smoothstep(horizon_point - ground_horizon_length, horizon_point - horizon_blend_length, SCREEN_UV.y));
+	}
+	
+	ALBEDO = _final_col.rgb * texture(tex, UV*vec2(1.5, .75)).rgb;
+}"
+
+[resource]
+shader = SubResource( 1 )
+shader_param/horizon_point = 0.68
+shader_param/horizon_length = 0.18
+shader_param/ground_horizon_length = 0.083
+shader_param/horizon_blend_length = 0.007
+shader_param/sky_col = Color( 0.286275, 0.466667, 0.623529, 1 )
+shader_param/horizon_col = Color( 0.168627, 0.231373, 0.54902, 1 )
+shader_param/ground_horizon_col = Color( 0.0901961, 0.207843, 0.239216, 1 )
+shader_param/ground_col = Color( 0.054902, 0.129412, 0.156863, 1 )
+shader_param/tex = ExtResource( 1 )

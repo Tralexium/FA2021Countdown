@@ -1,55 +1,14 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/UI/Timer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/3D/DiscoFloor.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Music/track_1.mp3" type="AudioStream" id=3]
 [ext_resource path="res://Scenes/Main.gd" type="Script" id=4]
 [ext_resource path="res://Scenes/3D/StarSkyboxLayer.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Resources/skybox_shader.tres" type="Material" id=6]
 [ext_resource path="res://Scenes/SkyController.gd" type="Script" id=7]
 
-[sub_resource type="Shader" id=1]
-code = "shader_type spatial;
-render_mode cull_front, unshaded;
-
-uniform float horizon_point : hint_range(0.0, 1.0) = 0.5;
-uniform float horizon_length;
-uniform float ground_horizon_length;
-uniform float horizon_blend_length;
-uniform vec4 sky_col : hint_color;
-uniform vec4 horizon_col : hint_color;
-uniform vec4 ground_horizon_col : hint_color;
-uniform vec4 ground_col : hint_color;
-
-
-void fragment() {
-	vec4 _final_col = vec4(0.0);
-	
-	if(SCREEN_UV.y > horizon_point + horizon_blend_length) {
-		_final_col = mix(horizon_col, sky_col, smoothstep(horizon_point + horizon_blend_length, horizon_point + horizon_length, SCREEN_UV.y));
-	}
-	else if (SCREEN_UV.y < horizon_point + horizon_blend_length && SCREEN_UV.y > horizon_point - horizon_blend_length) {
-		_final_col = mix(ground_horizon_col, horizon_col, smoothstep(horizon_point - horizon_blend_length, horizon_point + horizon_blend_length, SCREEN_UV.y));
-	}
-	else {
-		_final_col = mix(ground_col, ground_horizon_col, smoothstep(horizon_point - ground_horizon_length, horizon_point - horizon_blend_length, SCREEN_UV.y));
-	}
-	
-	ALBEDO = _final_col.rgb;
-}"
-
-[sub_resource type="ShaderMaterial" id=2]
-shader = SubResource( 1 )
-shader_param/horizon_point = 0.68
-shader_param/horizon_length = 0.148
-shader_param/ground_horizon_length = 0.073
-shader_param/horizon_blend_length = 0.007
-shader_param/sky_col = Color( 0.25098, 0.113725, 0.168627, 1 )
-shader_param/horizon_col = Color( 0.392157, 0.180392, 0.156863, 1 )
-shader_param/ground_horizon_col = Color( 0.180392, 0.129412, 0.286275, 1 )
-shader_param/ground_col = Color( 0.113725, 0.0941176, 0.145098, 1 )
-
 [sub_resource type="SphereMesh" id=3]
-material = SubResource( 2 )
 
 [node name="Main" type="Node"]
 script = ExtResource( 4 )
@@ -57,14 +16,14 @@ script = ExtResource( 4 )
 [node name="3DWorld" type="Spatial" parent="."]
 
 [node name="SkyBox" type="MeshInstance" parent="3DWorld"]
-transform = Transform( 110, 0, 0, 0, 110, 0, 0, 0, 110, 0, 32.5294, 0 )
+transform = Transform( 150, 0, 0, 0, 150, 0, 0, 0, 150, 0, 32.5294, 0 )
 mesh = SubResource( 3 )
 skeleton = NodePath("../..")
-material/0 = null
+material/0 = ExtResource( 6 )
 script = ExtResource( 7 )
 
 [node name="StarSkyboxLayer" parent="3DWorld" instance=ExtResource( 5 )]
-transform = Transform( 100, 0, 0, 0, 100, 0, 0, 0, 100, 0, -6.42372, 0 )
+transform = Transform( 140, 0, 0, 0, 140, 0, 0, 0, 140, 0, -7.45802, 0 )
 skeleton = NodePath("../..")
 
 [node name="DiscoFloor" parent="3DWorld" instance=ExtResource( 2 )]

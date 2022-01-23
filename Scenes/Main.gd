@@ -37,7 +37,8 @@ func _process(delta: float) -> void:
 	
 	nDiscoFloor.intensity = energy
 	nDiscoFloor.rotate_y(0.1*delta)
-	nStarSkyboxLayer.rotate_y(0.025*delta)
+	nStarSkyboxLayer.rotate_y(0.03*delta)
+	nSkyBox.rotate_y(-0.03*delta)
 
 
 func _change_color_schemes() -> void:
