@@ -1,9 +1,16 @@
 extends Node
 
-export(float) var min_db = 28.0
-export(float) var min_freq = 0.0
-export(float) var max_freq = 5000.0
-export(float) var shrink_spd = 0.7
+export(float) var min_db := 28.0
+export(float) var min_freq := 0.0
+export(float) var max_freq := 25000.0
+export(float) var shrink_spd := 0.7
+export(float) var strength := 1.5
+
+onready var music_playlist := [
+	preload("res://Assets/Music/track_1.mp3"),
+	preload("res://Assets/Music/track_2.mp3"),
+	preload("res://Assets/Music/track_3.mp3"),
+]
 
 onready var nDiscoFloor := $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer := $"3DWorld/StarSkyboxLayer"
@@ -15,15 +22,15 @@ var prev_energy : float
 
 func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
-	$Music.seek(30)
 	$WorldEnvironment.get_environment().set_sky_orientation(Basis().rotated(Vector3(-1, 0, 0).normalized(), PI/20))
 	
-#	nDiscoFloor.next_color()
+	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
+	nTween.start()
 
 
 func _process(delta: float) -> void:
 	var magnitude : float = spectrum.get_magnitude_for_frequency_range(min_freq, max_freq).length()
-	energy = clamp(((min_db + linear2db(magnitude)) / min_db)*2.5, 0, 1)
+	energy = clamp(((min_db + linear2db(magnitude)) / min_db)*strength, 0, 1)
 	if energy < prev_energy:
 		energy = prev_energy - (shrink_spd*delta)
 	prev_energy = energy
@@ -35,3 +42,7 @@ func _process(delta: float) -> void:
 
 func _change_color_schemes() -> void:
 	pass
+
+
+func _on_Music_finished() -> void:
+	pass # Replace with function body.

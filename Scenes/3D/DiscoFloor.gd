@@ -3,6 +3,7 @@ extends MultiMeshInstance
 export(int) var disco_floor_size := 40
 export(float, 0, 1) var intensity := 0.0
 export(float) var tile_margin := 6.0
+export(float) var opacity := 1.0
 # From DiscoTile Scene
 export(Array, Gradient) var color_gradient : Array
 export(float) var max_cycle_offset := 0.2
@@ -42,7 +43,7 @@ func _process(delta: float) -> void:
 		var _current_grad_col : Color = color_gradient[current_gradient_id % _total_gradients].interpolate(_offset)
 		var _next_grad_col : Color = color_gradient[(current_gradient_id + 1) % _total_gradients].interpolate(_offset)
 		var _final_col : Color = _current_grad_col.linear_interpolate(_next_grad_col, next_gradient_strength)
-		_final_col.a = tile_alphas[i]
+		_final_col.a = tile_alphas[i] * opacity
 		multimesh.set_instance_color(i, _final_col)
 		multimesh.set_instance_custom_data(i, Color(float(i % disco_floor_size), float(floor(i / disco_floor_size)), float(disco_floor_size), intensity))  # pass the intensity
 
