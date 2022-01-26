@@ -12,9 +12,15 @@ onready var music_playlist := [
 	preload("res://Assets/Music/track_3.mp3"),
 ]
 
+# 3D shit
 onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer : MeshInstance = $"3DWorld/StarSkyboxLayer"
 onready var nSkyBox : MeshInstance = $"3DWorld/SkyBox"
+
+# Particles shit
+onready var nBubbleParticles : Particles = $"3DWorld/Particles/Bubbles"
+onready var nLeafParticles : Particles = $"3DWorld/Particles/Leafs"
+
 onready var nTween : Tween = $Tween
 onready var nAnimationPlayer : AnimationPlayer = $AnimationPlayer
 onready var nMusic : AudioStreamPlayer = $Music

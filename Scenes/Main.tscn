@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Scenes/UI/Timer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/3D/DiscoFloor.tscn" type="PackedScene" id=2]
@@ -7,11 +7,12 @@
 [ext_resource path="res://Scenes/3D/StarSkyboxLayer.tscn" type="PackedScene" id=5]
 [ext_resource path="res://Resources/skybox_shader.tres" type="Material" id=6]
 [ext_resource path="res://Scenes/SkyController.gd" type="Script" id=7]
-[ext_resource path="res://Assets/bubble_particle.png" type="Texture" id=8]
+[ext_resource path="res://Assets/leaf_particle.png" type="Texture" id=8]
+[ext_resource path="res://Assets/bubble_particle.png" type="Texture" id=9]
 
 [sub_resource type="SphereMesh" id=3]
 
-[sub_resource type="SpatialMaterial" id=6]
+[sub_resource type="SpatialMaterial" id=13]
 flags_transparent = true
 flags_unshaded = true
 vertex_color_use_as_albedo = true
@@ -19,11 +20,11 @@ params_billboard_mode = 3
 particles_anim_h_frames = 4
 particles_anim_v_frames = 1
 particles_anim_loop = true
-albedo_texture = ExtResource( 8 )
+albedo_texture = ExtResource( 9 )
 
 [sub_resource type="Gradient" id=7]
-offsets = PoolRealArray( 0.170732, 0.335366, 0.585366, 1 )
-colors = PoolColorArray( 1, 0.00390625, 0.89397, 0, 0, 0.53418, 1, 0.858824, 0, 1, 0.80957, 0.169838, 1, 1, 1, 0 )
+offsets = PoolRealArray( 0.140244, 0.323171, 0.481707, 0.701219, 1 )
+colors = PoolColorArray( 1, 1, 1, 0, 0.890993, 0.345098, 0.937255, 0.776471, 0.222656, 0.526306, 1, 1, 0, 1, 0.8125, 0, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=8]
 gradient = SubResource( 7 )
@@ -36,7 +37,7 @@ _data = [ Vector2( 0, 0.460227 ), 0.0, 0.0, 0, 0, Vector2( 1, 1 ), 0.0, 0.0, 0, 
 width = 100
 curve = SubResource( 9 )
 
-[sub_resource type="ParticlesMaterial" id=11]
+[sub_resource type="ParticlesMaterial" id=14]
 emission_shape = 5
 emission_ring_radius = 110.0
 emission_ring_inner_radius = 110.0
@@ -49,14 +50,50 @@ initial_velocity = 0.2
 linear_accel = 5.83
 tangential_accel = 0.5
 tangential_accel_random = 0.5
+angle = -28.0
+angle_random = 0.66
 scale = 25.0
 scale_random = 0.7
 scale_curve = SubResource( 10 )
 color_ramp = SubResource( 8 )
-anim_speed = 8.7
+anim_speed = 14.0
 anim_offset_random = 1.0
 
 [sub_resource type="QuadMesh" id=12]
+
+[sub_resource type="SpatialMaterial" id=15]
+flags_transparent = true
+flags_unshaded = true
+vertex_color_use_as_albedo = true
+params_billboard_mode = 3
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+albedo_texture = ExtResource( 8 )
+
+[sub_resource type="ParticlesMaterial" id=16]
+emission_shape = 5
+emission_ring_radius = 110.0
+emission_ring_inner_radius = 90.0
+emission_ring_height = 0.0
+emission_ring_axis = Vector3( 0, 1, 0 )
+direction = Vector3( 0, -1, 0 )
+spread = 0.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 0.2
+angular_velocity = 10.0
+angular_velocity_random = 0.71
+linear_accel = 5.83
+tangential_accel = 1.5
+tangential_accel_random = 0.5
+angle = -14.0
+angle_random = 0.66
+scale = 15.0
+scale_random = 0.7
+scale_curve = SubResource( 10 )
+color_ramp = SubResource( 8 )
+anim_speed = 14.0
+anim_offset_random = 1.0
 
 [sub_resource type="StyleBoxFlat" id=4]
 bg_color = Color( 0.0509804, 0.0352941, 0.0784314, 0.670588 )
@@ -91,12 +128,27 @@ far = 310.0
 [node name="Particles" type="Spatial" parent="3DWorld"]
 transform = Transform( 1, 0, 0, 0, 1, 2.98023e-08, 0, -2.98023e-08, 1, 0, 0, 0 )
 
-[node name="Particles" type="Particles" parent="3DWorld/Particles"]
+[node name="Bubbles" type="Particles" parent="3DWorld/Particles"]
 transform = Transform( 1, 0, 0, 0, 1, -5.32907e-15, 0, 5.32907e-15, 1, 0, -50.3266, -1.49985e-06 )
-material_override = SubResource( 6 )
+material_override = SubResource( 13 )
+cast_shadow = 0
 amount = 40
-lifetime = 9.03
-process_material = SubResource( 11 )
+lifetime = 9.0
+randomness = 0.5
+visibility_aabb = AABB( -4, -89.8791, -4, 8, 179.758, 8 )
+process_material = SubResource( 14 )
+draw_pass_1 = SubResource( 12 )
+
+[node name="Leafs" type="Particles" parent="3DWorld/Particles"]
+transform = Transform( 1, 0, 0, 0, 1, -5.32907e-15, 0, 5.32907e-15, 1, 0, 91.0606, 2.71381e-06 )
+material_override = SubResource( 15 )
+cast_shadow = 0
+emitting = false
+amount = 80
+lifetime = 9.0
+randomness = 0.5
+visibility_aabb = AABB( -4, -102.047, -4, 8, 204.093, 8 )
+process_material = SubResource( 16 )
 draw_pass_1 = SubResource( 12 )
 
 [node name="InitialTimer" type="Control" parent="."]
