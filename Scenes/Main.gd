@@ -16,6 +16,7 @@ onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer : MeshInstance = $"3DWorld/StarSkyboxLayer"
 onready var nSkyBox : MeshInstance = $"3DWorld/SkyBox"
 onready var nTween : Tween = $Tween
+onready var nAnimationPlayer : AnimationPlayer = $AnimationPlayer
 onready var nMusic : AudioStreamPlayer = $Music
 var spectrum : AudioEffectInstance
 var energy : float
