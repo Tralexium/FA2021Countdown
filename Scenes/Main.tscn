@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Scenes/UI/Timer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/3D/DiscoFloor.tscn" type="PackedScene" id=2]
@@ -23,7 +23,7 @@ particles_anim_loop = true
 albedo_texture = ExtResource( 9 )
 
 [sub_resource type="Gradient" id=7]
-offsets = PoolRealArray( 0.140244, 0.323171, 0.481707, 0.701219, 1 )
+offsets = PoolRealArray( 0.0853659, 0.323171, 0.481707, 0.72561, 1 )
 colors = PoolColorArray( 1, 1, 1, 0, 0.890993, 0.345098, 0.937255, 0.776471, 0.222656, 0.526306, 1, 1, 0, 1, 0.8125, 0, 1, 1, 1, 0 )
 
 [sub_resource type="GradientTexture" id=8]
@@ -71,6 +71,14 @@ particles_anim_v_frames = 1
 particles_anim_loop = true
 albedo_texture = ExtResource( 8 )
 
+[sub_resource type="Gradient" id=17]
+offsets = PoolRealArray( 0.481707, 0.780488, 1 )
+colors = PoolColorArray( 0.937255, 0.345098, 0.820443, 0.776471, 0.996094, 1, 0.999268, 0, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=18]
+gradient = SubResource( 17 )
+width = 100
+
 [sub_resource type="ParticlesMaterial" id=16]
 emission_shape = 5
 emission_ring_radius = 110.0
@@ -91,7 +99,7 @@ angle_random = 0.66
 scale = 15.0
 scale_random = 0.7
 scale_curve = SubResource( 10 )
-color_ramp = SubResource( 8 )
+color_ramp = SubResource( 18 )
 anim_speed = 14.0
 anim_offset_random = 1.0
 
@@ -102,6 +110,37 @@ corner_radius_top_right = 90
 corner_radius_bottom_right = 90
 corner_radius_bottom_left = 90
 corner_detail = 16
+
+[sub_resource type="Animation" id=19]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("3DWorld/StarSkyboxLayer:material/0:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+
+[sub_resource type="Animation" id=20]
+resource_name = "fade_in_stars"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("3DWorld/StarSkyboxLayer:material/0:albedo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
 
 [node name="Main" type="Node"]
 script = ExtResource( 4 )
@@ -151,6 +190,9 @@ visibility_aabb = AABB( -4, -102.047, -4, 8, 204.093, 8 )
 process_material = SubResource( 16 )
 draw_pass_1 = SubResource( 12 )
 
+[node name="MeteorSpawner" type="Timer" parent="3DWorld/Particles"]
+one_shot = true
+
 [node name="InitialTimer" type="Control" parent="."]
 margin_left = 576.0
 margin_top = 384.0
@@ -179,5 +221,8 @@ autoplay = true
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 19 )
+anims/fade_in_stars = SubResource( 20 )
 
+[connection signal="timeout" from="3DWorld/Particles/MeteorSpawner" to="." method="_on_MeteorSpawner_timeout"]
 [connection signal="finished" from="Music" to="." method="_on_Music_finished"]
