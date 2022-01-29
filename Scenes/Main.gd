@@ -24,6 +24,9 @@ onready var nLeafParticles : Particles = $"3DWorld/Particles/Leafs"
 onready var nMeteorSpawner : Timer = $"3DWorld/Particles/MeteorSpawner"
 var scnMeteor : PackedScene = preload("res://Scenes/3D/Meteor.tscn")
 
+# UI shit
+onready var nInfoBar := $InfoBar
+
 onready var nTween : Tween = $Tween
 onready var nAnimationPlayer : AnimationPlayer = $AnimationPlayer
 onready var nMusic : AudioStreamPlayer = $Music
@@ -38,6 +41,9 @@ func _ready() -> void:
 
 	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
 	nTween.start()
+	
+	yield(get_tree().create_timer(5.0), "timeout")
+	nInfoBar.add_custom_text(["Hello, this is a force quote!"])
 
 
 # DEBUG

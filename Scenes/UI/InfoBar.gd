@@ -90,6 +90,7 @@ func _get_next_forced_quote() -> void:
 	self.current_strings = forced_quotes.pop_front()
 	current_quote_id = (current_quote_id + 1) % common_quote_list.size()
 	nLabel.self_modulate = Color.whitesmoke * Color(1, 1, 1, nLabel.self_modulate.a)
+	quote_updates -= 1  # Forced quotes shouldn't affect the order of hard coded quotes!
 
 
 func _fade_in_next() -> void:
