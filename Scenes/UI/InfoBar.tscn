@@ -1,7 +1,11 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Assets/Fonts/CaviarDreams.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/InfoBar.gd" type="Script" id=2]
+[ext_resource path="res://Assets/og_crusher.png" type="Texture" id=3]
+[ext_resource path="res://Assets/og_crusher_left.png" type="Texture" id=4]
+[ext_resource path="res://Assets/crusher.png" type="Texture" id=5]
+[ext_resource path="res://Assets/crusher_left.png" type="Texture" id=6]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.580645, 1 )
@@ -14,6 +18,17 @@ width = 10
 [sub_resource type="DynamicFont" id=3]
 size = 34
 font_data = ExtResource( 1 )
+
+[sub_resource type="AnimatedTexture" id=4]
+frames = 4
+fps = 0.0
+frame_0/texture = ExtResource( 5 )
+frame_1/texture = ExtResource( 6 )
+frame_1/delay_sec = 0.0
+frame_2/texture = ExtResource( 3 )
+frame_2/delay_sec = 0.0
+frame_3/texture = ExtResource( 4 )
+frame_3/delay_sec = 0.0
 
 [node name="InfoBar" type="Control"]
 margin_right = 1920.0
@@ -37,13 +52,25 @@ __meta__ = {
 
 [node name="Label" type="Label" parent="."]
 margin_left = 32.0
-margin_top = 31.0
-margin_right = 708.0
-margin_bottom = 95.0
+margin_top = 29.0
+margin_right = 704.0
+margin_bottom = 93.0
 custom_colors/font_color = Color( 1, 1, 1, 1 )
 custom_fonts/font = SubResource( 3 )
 text = "The brown fox jumped over the lazy dog"
 valign = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Crusher" type="TextureRect" parent="."]
+margin_left = 680.0
+margin_top = 39.0
+margin_right = 728.0
+margin_bottom = 87.0
+rect_pivot_offset = Vector2( 24, 24 )
+texture = SubResource( 4 )
+expand = true
 __meta__ = {
 "_edit_use_anchors_": false
 }

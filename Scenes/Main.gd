@@ -41,9 +41,6 @@ func _ready() -> void:
 
 	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
 	nTween.start()
-	
-	yield(get_tree().create_timer(5.0), "timeout")
-	nInfoBar.add_custom_text(["Hello, this is a force quote!"])
 
 
 # DEBUG
