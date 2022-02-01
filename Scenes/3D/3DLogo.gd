@@ -1,11 +1,10 @@
 extends Spatial
 
-export(float, 0, 1) var expand_perc := 0.5
-export(float) var expand_dist := 1
+export(float, 0, 1) var expand_perc := 0.0
+export(float) var expand_dist := 2
 
 var old_expand_perc := 0.0
 var original_chunk_positions : Array
-var timer := 0.0
 
 
 func _ready() -> void:
@@ -14,9 +13,6 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	timer += delta
-	expand_perc = sin(timer) + 1
-	
 	if old_expand_perc != expand_perc:
 		old_expand_perc = expand_perc
 		
