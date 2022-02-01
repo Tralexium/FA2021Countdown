@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Scenes/3D/3DLogo.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/fa_bg.png" type="Texture" id=2]
+[ext_resource path="res://Scenes/3D/LogoCutscene.gd" type="Script" id=3]
 
 [sub_resource type="Shader" id=1]
 code = "shader_type spatial;
@@ -35,8 +36,8 @@ void fragment() {
 
 [sub_resource type="ShaderMaterial" id=2]
 shader = SubResource( 1 )
-shader_param/scroll_speed = Vector2( 0.05, 0.02 )
-shader_param/repeats = 10.0
+shader_param/scroll_speed = Vector2( 0.04, 0.02 )
+shader_param/repeats = 20.0
 shader_param/angle = -15.0
 shader_param/bg_texture = ExtResource( 2 )
 
@@ -107,7 +108,7 @@ tracks/4/keys = {
 
 [sub_resource type="Animation" id=4]
 resource_name = "intro"
-length = 2.5
+length = 3.0
 tracks/0/type = "value"
 tracks/0/path = NodePath("3DLogo:expand_perc")
 tracks/0/interp = 1
@@ -115,7 +116,7 @@ tracks/0/loop_wrap = true
 tracks/0/imported = false
 tracks/0/enabled = true
 tracks/0/keys = {
-"times": PoolRealArray( 0, 1 ),
+"times": PoolRealArray( 0, 2.7 ),
 "transitions": PoolRealArray( 0.267944, 1 ),
 "update": 0,
 "values": [ 1.0, 0.0 ]
@@ -127,10 +128,10 @@ tracks/1/loop_wrap = true
 tracks/1/imported = false
 tracks/1/enabled = true
 tracks/1/keys = {
-"times": PoolRealArray( 0.8, 1.4 ),
-"transitions": PoolRealArray( 0.4, 1 ),
+"times": PoolRealArray( 0, 1.7, 2.2 ),
+"transitions": PoolRealArray( 0.4, 0.4, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 1, 1, 1 ) ]
 }
 tracks/2/type = "value"
 tracks/2/path = NodePath("3DLogo/Leaf:scale")
@@ -139,10 +140,10 @@ tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 1.1, 1.7 ),
-"transitions": PoolRealArray( 0.378929, 1 ),
+"times": PoolRealArray( 0, 1.9, 2.3 ),
+"transitions": PoolRealArray( 0.378929, 0.378929, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 0 ), Vector3( 0.50596, 0.50596, 0.368031 ) ]
+"values": [ Vector3( 0, 0, 0 ), Vector3( 0, 0, 0 ), Vector3( 0.50596, 0.50596, 0.368031 ) ]
 }
 tracks/3/type = "value"
 tracks/3/path = NodePath("3DLogo/Stem:rotation_degrees")
@@ -151,10 +152,10 @@ tracks/3/loop_wrap = true
 tracks/3/imported = false
 tracks/3/enabled = true
 tracks/3/keys = {
-"times": PoolRealArray( 0.8, 1.2, 1.7 ),
-"transitions": PoolRealArray( 1.56917, -2, 1 ),
+"times": PoolRealArray( 1.7, 2, 2.4 ),
+"transitions": PoolRealArray( 1.56917, 0.5, 1 ),
 "update": 0,
-"values": [ Vector3( 0, 0, 20 ), Vector3( 0, 0, -3 ), Vector3( 0, 0, 0 ) ]
+"values": [ Vector3( 0, 0, 25.107 ), Vector3( 0, 0, -8.108 ), Vector3( 0, 0, 1.328 ) ]
 }
 tracks/4/type = "value"
 tracks/4/path = NodePath("3DLogo/Leaf:rotation_degrees")
@@ -163,27 +164,28 @@ tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 1.1, 1.4, 1.7, 2.1 ),
-"transitions": PoolRealArray( 0.378929, -2, -1.51572, 1 ),
+"times": PoolRealArray( 1.9, 2.2, 2.4, 3 ),
+"transitions": PoolRealArray( 2.37842, -2, 0.307786, 1 ),
 "update": 0,
-"values": [ Vector3( 19.1608, -8.17963, 7.26955 ), Vector3( 28.9823, -21.4803, -23.7915 ), Vector3( 38.2991, -2.31811, 7.03461 ), Vector3( 42.7655, -9.06435, -8.27513 ) ]
+"values": [ Vector3( 24.7302, -22.0186, -51.3824 ), Vector3( 26.9262, -12.3149, -6.10654 ), Vector3( 31.5828, -25.3244, -33.6508 ), Vector3( 47.9658, -15.3719, -23.8914 ) ]
 }
 
 [node name="LogoCutscene" type="Spatial"]
+script = ExtResource( 3 )
 
 [node name="3DLogo" parent="." instance=ExtResource( 1 )]
-transform = Transform( 0.934341, 0.356379, 0, -0.356379, 0.934341, 0, 0, 0, 1, 0, 0, 0 )
+transform = Transform( 0.967863, 0.251478, 0, -0.251478, 0.967863, 0, 0, 0, 1, 0, 0, 0 )
 expand_perc = 1.0
-expand_dist = 3.0
+expand_dist = 5.0
 
 [node name="Stem" parent="3DLogo" index="1"]
-transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0184469, 0.53197, -0.00820862 )
+transform = Transform( 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4956, 0 )
 
 [node name="Leaf" parent="3DLogo" index="2"]
-transform = Transform( 0.50223, 0.0183517, -0.0425661, -0.0534609, 0.367578, -0.249893, 0.0300529, 0.347197, 0.266812, 0.0566904, 1.57154, 0.034055 )
+transform = Transform( 0.50223, 0.0183517, -0.0425661, -0.0534609, 0.367578, -0.249893, 0.0300529, 0.347197, 0.266812, 0.0429594, 1.52238, 0.034055 )
 
 [node name="BG" type="MeshInstance" parent="."]
-transform = Transform( 1000, 0, 0, 0, 642.788, 0.766044, 0, -766.044, 0.642788, 0, 0, -103.834 )
+transform = Transform( 1000, 0, 0, 0, 667.365, 0.744731, 0, -744.731, 0.667365, 0, 51.657, -103.834 )
 material_override = SubResource( 2 )
 mesh = SubResource( 3 )
 material/0 = null
@@ -191,8 +193,15 @@ __meta__ = {
 "_edit_lock_": true
 }
 
+[node name="Camera" type="Camera" parent="."]
+transform = Transform( 1, 0, 0, 0, 0.969463, 0.24524, 0, -0.24524, 0.969463, 0, 1.28274, 4.178 )
+
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 5 )
 anims/intro = SubResource( 4 )
+
+[node name="Tween" type="Tween" parent="."]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
 
 [editable path="3DLogo"]
