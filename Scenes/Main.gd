@@ -44,14 +44,12 @@ func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 
 
-func _connect_signals() -> void:
-	nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
-
-
 # DEBUG & STARTING TIMERS
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("start_countdown"):
 		nAnimationPlayer.play("start_timer_sequence")
+		nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
+		nFinalCountdown.connect("finished", self, "_change_to_logo")
 	elif event.is_action_pressed("start_break"):
 		# TODO
 		pass
@@ -114,4 +112,17 @@ func _on_MeteorSpawner_timeout() -> void:
 
 
 func _change_to_final_countdown() -> void:
-	pass
+	nTween.interpolate_property($InitialTimer, "modulate:a", 1.0, 0.0, 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
+	nTween.interpolate_property($InitialTimer, "rect_scale", Vector2.ONE, Vector2.ZERO, 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
+	nTween.start()
+	nInfoBar.stop()
+	nFinalCountdown.start()
+
+
+func _change_to_logo() -> void:
+	$"3DWorld/Camera".current = false
+	$"3DWorld".visible = false
+	nLogoCutscene.visible = true
+	nLogoCutscene.start()
+	nTween.interpolate_property(nBlackOverlay, "modulate:a", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN, 7.0)
+	nTween.start()
