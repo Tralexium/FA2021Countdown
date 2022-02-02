@@ -42,7 +42,7 @@ var current_track_id := 0
 
 
 func _ready() -> void:
-	Engine.time_scale = 3.0
+#	Engine.time_scale = 5.0
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 
 

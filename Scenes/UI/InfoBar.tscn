@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Fonts/CaviarDreams.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Scenes/UI/InfoBar.gd" type="Script" id=2]
@@ -29,6 +29,38 @@ frame_2/texture = ExtResource( 3 )
 frame_2/delay_sec = 0.0
 frame_3/texture = ExtResource( 4 )
 frame_3/delay_sec = 0.0
+
+[sub_resource type="Animation" id=5]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=6]
+resource_name = "rainbow"
+length = 1.1
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6, 0.8, 1 ),
+"transitions": PoolRealArray( 1, 1, 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0.988235, 0.32549, 0.32549, 1 ), Color( 0.988235, 0.870588, 0.32549, 1 ), Color( 0.596078, 0.988235, 0.32549, 1 ), Color( 0.27451, 0.909804, 0.792157, 1 ), Color( 0.560784, 0.27451, 0.909804, 1 ), Color( 0.909804, 0.27451, 0.721569, 1 ) ]
+}
 
 [node name="InfoBar" type="Control"]
 margin_right = 1920.0
@@ -76,3 +108,7 @@ __meta__ = {
 }
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/RESET = SubResource( 5 )
+anims/rainbow = SubResource( 6 )

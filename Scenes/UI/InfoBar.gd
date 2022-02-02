@@ -23,9 +23,9 @@ var common_quote_list := [
 		"Welcome to the Fangame Awards 2021!",
 		"Grab some drinks & snacks, and enjoy the show.",
 	],
-	["This countdown was brought to you by your friendly troller, Tralexium"],
+	["This countdown was brought to you by your friendly troller, Tralexium."],
 	[
-		"This year's awards brings two new categories: Brainteaser of the Year & Beginner Game of the Year",
+		"This year's awards brings two new categories: Brainteaser of the Year & Beginner Game of the Year.",
 		"That brings the number of awards to 20!"
 	],
 	[
@@ -51,8 +51,8 @@ var fun_fact_list := [
 		"Could you PLEASE play Boshy again? :)"
 	],
 	[
-		"Dribix is the father figure of the Crushers, which were first introduced in 'I Wanna Maker'  ",
-		"However, at a very early stage of the game, they used to look like this  ",
+		"Dribix is the father figure of the Crushers, which were first introduced in 'I Wanna Maker'.  ",
+		"However, at a very early stage of the game, they used to look like this.  ",
 	],
 	["The original 'I Wanna Kill the Kamilia' got released over 10 years ago."],
 	["Did you know? PlasmaNapkin released 'I Wanna Buy Balloons and Let Them Go' on May 15th, 2020!"],
@@ -61,14 +61,14 @@ var fun_fact_list := [
 		"Currently, it is the most viewed fangame moment on Twitch!"
 	],
 	[
-		"At the early stages on needle games, triple diamonds were considered impossible",
+		"At the early stages of needle games, triple diamonds were considered impossible",
 		"It's been a decade since Kinata discovered that they're indeed possible."
 	],
 	[
 		"Markiplier actually cleared 'I Wanna Run the Marathon' during his livestreams.",
-		"Not many people know this, as he never published the other parts on YouTube."
+		"Not many people know this, since he never published the other parts on YouTube."
 	],
-	["WOOOOOO!!! LETS GO Drake Drake Drake Drake  YAAAAYY"],
+	["WOOOOOO!!! LETS GO Drake Drake Drake Drake  YAAAAYY  :3"],
 ]
 var forced_quotes := []
 
@@ -76,11 +76,12 @@ onready var nBar := $Bar
 onready var nLabel := $Label
 onready var nCrusher := $Crusher
 onready var nTween := $Tween
+onready var nAnim := $AnimationPlayer
 
 
 func _ready() -> void:
 	nBar.self_modulate.a = 0
-	nLabel.self_modulate.a = 0
+	nLabel.modulate.a = 0
 	nCrusher.self_modulate.a = 0
 
 
@@ -102,7 +103,7 @@ func add_custom_text(forced_quotes_ : Array) -> void:
 
 func stop() -> void:
 	paused = true
-	if nLabel.self_modulate.a == 1.0:
+	if nLabel.modulate.a == 1.0:
 		_fade_out()
 
 
@@ -137,6 +138,8 @@ func _get_next_fact() -> void:
 	if "Dribix" in current_strings[0]:
 		nLabel.self_modulate = Color.hotpink * Color(1, 1, 1, nLabel.self_modulate.a)
 		crusher_id = 0
+	elif ":3" in current_strings[0]:
+		nAnim.play("rainbow")
 	else:
 		nLabel.self_modulate = Color.skyblue * Color(1, 1, 1, nLabel.self_modulate.a)
 
@@ -173,7 +176,7 @@ func _fade_in_next() -> void:
 		nCrusher.rect_position.x = nLabel.margin_left + nLabel.rect_size.x + text_scroll_amnt # Align the crusher to the very right of the label
 	
 	nTween.interpolate_property(nLabel, "rect_position:x", text_scroll_amnt, 32, fade_time, Tween.TRANS_QUART, Tween.EASE_OUT, _bar_fade_sep)
-	nTween.interpolate_property(nLabel, "self_modulate:a", 0, 1, fade_time, Tween.TRANS_QUART, Tween.EASE_OUT, _bar_fade_sep)
+	nTween.interpolate_property(nLabel, "modulate:a", 0, 1, fade_time, Tween.TRANS_QUART, Tween.EASE_OUT, _bar_fade_sep)
 	if crusher_id > -1:
 		nTween.interpolate_property(nCrusher, "rect_position:x", nCrusher.rect_position.x, nCrusher.rect_position.x - text_scroll_amnt, fade_time, Tween.TRANS_QUART, Tween.EASE_OUT, _bar_fade_sep)
 		nTween.interpolate_property(nCrusher, "self_modulate:a", 0, 1, fade_time, Tween.TRANS_QUART, Tween.EASE_OUT, _bar_fade_sep)
@@ -195,7 +198,7 @@ func _move_cursher() -> void:
 	yield(get_tree().create_timer(crusher_move_dur + 0.1), "timeout")
 	self.crusher_id += 1
 	nLabel.self_modulate = Color("42cafd")
-	nLabel.self_modulate.a = 0
+	nLabel.modulate.a = 0
 	nCrusher.self_modulate.a = 0
 	if crusher_id > 3:
 		crusher_id = -1
@@ -205,7 +208,7 @@ func _move_cursher() -> void:
 
 
 func _fade_out() -> void:
-	nTween.interpolate_property(nLabel, "self_modulate:a", 1, 0, fade_time, Tween.TRANS_QUART, Tween.EASE_IN)
+	nTween.interpolate_property(nLabel, "modulate:a", 1, 0, fade_time, Tween.TRANS_QUART, Tween.EASE_IN)
 	if remaining_quotes == 0:
 		nTween.interpolate_property(nBar, "self_modulate:a", 1, 0, fade_time, Tween.TRANS_QUART, Tween.EASE_IN)
 	nTween.start()
@@ -215,6 +218,7 @@ func _fade_out() -> void:
 
 func _after_fade_out() -> void:
 	nLabel.clip_text = false  # restore clip text in case it was switched off by a crusher
+	nAnim.stop()
 	if remaining_quotes > 0:
 		_fade_in_next()
 	else:
