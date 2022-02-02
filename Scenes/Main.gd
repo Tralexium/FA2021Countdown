@@ -1,6 +1,6 @@
 extends Node
 
-export(bool) var debug := true
+export(bool) var debug := false
 export(float) var min_db := 30.0
 export(float) var min_freq := 0.0
 export(float) var max_freq := 15000.0

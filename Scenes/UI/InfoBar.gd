@@ -3,11 +3,11 @@ extends Control
 export(float) var fade_time := 1.0  # how long it takes to fade in/out
 export(float) var bar_fade_sep := 0.3  # fading separation between the dark bar and text
 export(float) var text_scroll_amnt := 200.0  # how much should the quote scroll when fading in
-export(float) var text_duration := 3.0  # how long should the text last before switching
-export(float) var idle_duration := 2.0  # how long to wait before showing the next text
+export(float) var text_duration := 4.0  # how long should the text last before switching
+export(float) var idle_duration := 15.0  # how long to wait before showing the next text
 export(float) var crusher_move_dur := 1.5  # how long it takes for the crusher to go off screen
 export(int) var string_length_threshold := 100  # at what text length the text starts scrolling
-export(int) var fact_frequency := 1  # after how many common quotes does a fact show up?
+export(int) var fact_frequency := 3  # after how many common quotes does a fact show up?
 
 signal fading_in
 signal faded_out
@@ -31,7 +31,7 @@ var common_quote_list := [
 var fun_fact_list := [
 	[
 		"Dribix is the father figure of the Crushers, which were first featured in 'I Wanna Maker'  ",
-		"However, at very early stage of the game, they used to look like this  ",
+		"However, at a very early stage of the game, they used to look like this  ",
 	],
 	["There are currently over 10,000 published 'I Wanna be the Guy' fangames!"],
 	["The Q kills you in fangames because it is an upside down cherry."],
@@ -46,7 +46,13 @@ var fun_fact_list := [
 		"Currently, it is the most viewed fangame moment on Twitch!"
 	],
 ]
-var forced_quotes := []
+var forced_quotes := [
+	[
+		"Welcome to the Fangame Awards 2021!",
+		"Grab some drink & snacks, and enjoy the visuals.",
+		"The main show will be worth the wait!"
+	]
+]
 
 onready var nBar := $Bar
 onready var nLabel := $Label
