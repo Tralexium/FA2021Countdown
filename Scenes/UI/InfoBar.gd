@@ -58,7 +58,6 @@ func _ready() -> void:
 	nBar.self_modulate.a = 0
 	nLabel.self_modulate.a = 0
 	nCrusher.self_modulate.a = 0
-	fade_next()
 
 
 func _process(delta: float) -> void:

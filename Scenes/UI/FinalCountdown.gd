@@ -14,16 +14,15 @@ var finished_counting := false
 
 
 func _ready() -> void:
-	self_modulate.a = colors.size()
+	visible = false
 	_update_colors_and_number()
-	
-	start()
 
 
 func start() -> void:
 	if started_counting:
 		return
 	
+	visible = true
 	started_counting = true
 	nTween.interpolate_property(self, "modulate:a", 0, 1, 0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
 	nTween.interpolate_property(self, "rect_scale", Vector2(1.5, 1.5), Vector2.ONE, 0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)

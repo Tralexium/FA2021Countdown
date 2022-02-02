@@ -3,6 +3,8 @@ extends HBoxContainer
 export(int, 0, 60) var timer_minutes
 export(int, 0, 59) var timer_seconds
 
+signal last_ten_sec
+
 onready var nMinuteOne := $Minute
 onready var nMinuteTwo := $Minute2
 onready var nColumn := $TimerColumn
@@ -20,11 +22,10 @@ func _ready() -> void:
 	# Setup seconds
 	nSecondOne.set_current_number(floor(timer_seconds / 10))
 	nSecondTwo.set_current_number(timer_seconds % 10)
-	
-	start_timer()
 
 
 func start_timer() -> void:
+	nColumn.get_node("AnimationPlayer").play("Idle")
 	nTimer.start()
 	paused = false
 
@@ -63,3 +64,5 @@ func _set_all_current_numbers():
 
 func _on_Timer_timeout() -> void:
 	_count_down()
+	if timer_minutes == 0 and timer_seconds == 10:
+		emit_signal("last_ten_sec")

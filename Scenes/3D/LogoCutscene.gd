@@ -10,7 +10,7 @@ onready var nAnim := $AnimationPlayer
 onready var nTween := $Tween
 
 
-func _ready() -> void:
+func start() -> void:
 	nTween.interpolate_property(self, "rot_spd", initial_rot_spd, final_rot_spd, 4.0, Tween.TRANS_CUBIC, Tween.EASE_OUT)
 	nTween.start()
 	nAnim.play("intro")

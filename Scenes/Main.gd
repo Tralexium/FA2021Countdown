@@ -17,6 +17,7 @@ onready var music_playlist := [
 onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer : MeshInstance = $"3DWorld/StarSkyboxLayer"
 onready var nSkyBox : MeshInstance = $"3DWorld/SkyBox"
+onready var nLogoCutscene := $LogoCutscene
 
 # Particles shit
 onready var nBubbleParticles : Particles = $"3DWorld/Particles/Bubbles"
@@ -26,6 +27,9 @@ var scnMeteor : PackedScene = preload("res://Scenes/3D/Meteor.tscn")
 
 # UI shit
 onready var nInfoBar := $InfoBar
+onready var nInitialTimer := $InitialTimer/Timer
+onready var nFinalCountdown := $FinalCountdown
+onready var nBlackOverlay := $BlackOverlay
 
 onready var nTween : Tween = $Tween
 onready var nAnimationPlayer : AnimationPlayer = $AnimationPlayer
@@ -39,12 +43,19 @@ var current_track_id := 0
 func _ready() -> void:
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 
-	nTween.interpolate_property(nDiscoFloor, "opacity", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
-	nTween.start()
+
+func _connect_signals() -> void:
+	nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
 
 
-# DEBUG
+# DEBUG & STARTING TIMERS
 func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("start_countdown"):
+		nAnimationPlayer.play("start_timer_sequence")
+	elif event.is_action_pressed("start_break"):
+		# TODO
+		pass
+	
 	if !debug:
 		return
 	
@@ -64,6 +75,10 @@ func _process(delta: float) -> void:
 	nDiscoFloor.rotate_y(0.1*delta)
 	nStarSkyboxLayer.rotate_y(0.03*delta)
 	nSkyBox.rotate_y(-0.03*delta)
+
+
+func start_initial_countdown() -> void:
+	nInitialTimer.start_timer()
 
 
 func _change_color_schemes() -> void:
@@ -96,3 +111,7 @@ func _on_MeteorSpawner_timeout() -> void:
 	var _meteor_inst = scnMeteor.instance()
 	_meteor_inst.translate(Vector3(rand_range(-360.0, 0.0), 150.0, rand_range(-70.0, -20.0)))
 	$"3DWorld/Particles".add_child(_meteor_inst)
+
+
+func _change_to_final_countdown() -> void:
+	pass

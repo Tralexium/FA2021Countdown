@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=2]
+[gd_scene load_steps=31 format=2]
 
 [ext_resource path="res://Scenes/UI/Timer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/3D/DiscoFloor.tscn" type="PackedScene" id=2]
@@ -11,6 +11,8 @@
 [ext_resource path="res://Assets/bubble_particle.png" type="Texture" id=9]
 [ext_resource path="res://Assets/vingette.png" type="Texture" id=10]
 [ext_resource path="res://Scenes/UI/InfoBar.tscn" type="PackedScene" id=11]
+[ext_resource path="res://Scenes/3D/LogoCutscene.tscn" type="PackedScene" id=12]
+[ext_resource path="res://Scenes/UI/FinalCountdown.tscn" type="PackedScene" id=13]
 
 [sub_resource type="SphereMesh" id=3]
 
@@ -105,8 +107,11 @@ color_ramp = SubResource( 18 )
 anim_speed = 14.0
 anim_offset_random = 1.0
 
+[sub_resource type="StyleBoxFlat" id=21]
+bg_color = Color( 0, 0, 0, 1 )
+
 [sub_resource type="StyleBoxFlat" id=4]
-bg_color = Color( 0.0509804, 0.0352941, 0.0784314, 0.670588 )
+bg_color = Color( 0, 0, 0, 0.537255 )
 corner_radius_top_left = 90
 corner_radius_top_right = 90
 corner_radius_bottom_right = 90
@@ -127,6 +132,42 @@ tracks/0/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ) ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath("InitialTimer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("BlackOverlay:custom_styles/panel:bg_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("Music:playing")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ true ]
+}
 
 [sub_resource type="Animation" id=20]
 resource_name = "fade_in_stars"
@@ -142,6 +183,74 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1 ),
 "update": 0,
 "values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+
+[sub_resource type="Animation" id=22]
+resource_name = "start_timer_sequence"
+length = 10.0
+tracks/0/type = "value"
+tracks/0/path = NodePath("InitialTimer:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 3 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ), Color( 1, 1, 1, 1 ) ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("BlackOverlay:custom_styles/panel:bg_color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0, 5, 10 ),
+"transitions": PoolRealArray( 1, 1, 1 ),
+"update": 0,
+"values": [ Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 1 ), Color( 0, 0, 0, 0 ) ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("Music:playing")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0, 5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ false, true ]
+}
+tracks/3/type = "method"
+tracks/3/path = NodePath(".")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 4 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "start_initial_countdown"
+} ]
+}
+tracks/4/type = "method"
+tracks/4/path = NodePath("InfoBar")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/keys = {
+"times": PoolRealArray( 10 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "fade_next"
+} ]
 }
 
 [node name="Main" type="Node"]
@@ -195,7 +304,32 @@ draw_pass_1 = SubResource( 12 )
 [node name="MeteorSpawner" type="Timer" parent="3DWorld/Particles"]
 one_shot = true
 
+[node name="LogoCutscene" parent="." instance=ExtResource( 12 )]
+visible = false
+
+[node name="Vingette" type="TextureRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 10 )
+expand = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="InfoBar" parent="." instance=ExtResource( 11 )]
+margin_top = 984.0
+margin_bottom = 1080.0
+
+[node name="BlackOverlay" type="Panel" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+custom_styles/panel = SubResource( 21 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="InitialTimer" type="Control" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = 576.0
 margin_top = 384.0
 margin_right = 1344.0
@@ -216,28 +350,18 @@ margin_left = 32.0
 margin_right = 736.0
 timer_minutes = 10
 
-[node name="Vingette" type="TextureRect" parent="."]
-anchor_right = 1.0
-anchor_bottom = 1.0
-texture = ExtResource( 10 )
-expand = true
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="InfoBar" parent="." instance=ExtResource( 11 )]
-margin_top = 984.0
-margin_bottom = 1080.0
+[node name="FinalCountdown" parent="." instance=ExtResource( 13 )]
+visible = false
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
-autoplay = true
 
 [node name="Tween" type="Tween" parent="."]
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/RESET = SubResource( 19 )
 anims/fade_in_stars = SubResource( 20 )
+anims/start_timer_sequence = SubResource( 22 )
 
 [connection signal="timeout" from="3DWorld/Particles/MeteorSpawner" to="." method="_on_MeteorSpawner_timeout"]
 [connection signal="finished" from="Music" to="." method="_on_Music_finished"]
