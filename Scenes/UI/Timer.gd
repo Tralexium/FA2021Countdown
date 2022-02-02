@@ -3,6 +3,8 @@ extends HBoxContainer
 export(int, 0, 60) var timer_minutes
 export(int, 0, 59) var timer_seconds
 
+signal halfway_reached
+signal one_minute_left
 signal last_ten_sec
 
 onready var nMinuteOne := $Minute
@@ -66,3 +68,7 @@ func _on_Timer_timeout() -> void:
 	_count_down()
 	if timer_minutes == 0 and timer_seconds == 10:
 		emit_signal("last_ten_sec")
+	elif timer_minutes == 1 and timer_seconds == 0:
+		emit_signal("one_minute_left")
+	elif timer_minutes == 5 and timer_seconds == 0:
+		emit_signal("halfway_reached")

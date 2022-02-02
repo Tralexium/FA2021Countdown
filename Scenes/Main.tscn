@@ -1,4 +1,4 @@
-[gd_scene load_steps=31 format=2]
+[gd_scene load_steps=32 format=2]
 
 [ext_resource path="res://Scenes/UI/Timer.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Scenes/3D/DiscoFloor.tscn" type="PackedScene" id=2]
@@ -13,6 +13,7 @@
 [ext_resource path="res://Scenes/UI/InfoBar.tscn" type="PackedScene" id=11]
 [ext_resource path="res://Scenes/3D/LogoCutscene.tscn" type="PackedScene" id=12]
 [ext_resource path="res://Scenes/UI/FinalCountdown.tscn" type="PackedScene" id=13]
+[ext_resource path="res://Scenes/UI/SongDetails.tscn" type="PackedScene" id=14]
 
 [sub_resource type="SphereMesh" id=3]
 
@@ -264,6 +265,18 @@ tracks/4/keys = {
 "update": 0,
 "values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
 }
+tracks/5/type = "value"
+tracks/5/path = NodePath("3DWorld/StarSkyboxLayer:material/0:albedo_color")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Color( 1, 1, 1, 0 ) ]
+}
 
 [node name="Main" type="Node"]
 script = ExtResource( 4 )
@@ -331,6 +344,8 @@ __meta__ = {
 [node name="InfoBar" parent="." instance=ExtResource( 11 )]
 margin_top = 984.0
 margin_bottom = 1080.0
+
+[node name="SongDetails" parent="." instance=ExtResource( 14 )]
 
 [node name="BlackOverlay" type="Panel" parent="."]
 anchor_right = 1.0

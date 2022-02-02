@@ -30,6 +30,7 @@ onready var nInfoBar := $InfoBar
 onready var nInitialTimer := $InitialTimer/Timer
 onready var nFinalCountdown := $FinalCountdown
 onready var nBlackOverlay := $BlackOverlay
+onready var nSongDetails := $SongDetails
 
 onready var nTween : Tween = $Tween
 onready var nAnimationPlayer : AnimationPlayer = $AnimationPlayer
@@ -41,6 +42,7 @@ var current_track_id := 0
 
 
 func _ready() -> void:
+	Engine.time_scale = 3.0
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 
 
@@ -48,6 +50,8 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("start_countdown"):
 		nAnimationPlayer.play("start_timer_sequence")
+		nInitialTimer.connect("halfway_reached", self, "_display_halway_text")
+		nInitialTimer.connect("one_minute_left", self, "_display_one_minute_text")
 		nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
 		nFinalCountdown.connect("finished", self, "_change_to_logo")
 	elif event.is_action_pressed("start_break"):
@@ -85,9 +89,11 @@ func _change_color_schemes() -> void:
 			min_db = 32.0
 			nBubbleParticles.emitting = false
 			nLeafParticles.emitting = true
+			nSongDetails.current_song_id = 1
 		2:
 			min_db = 34.0
 			nLeafParticles.emitting = false
+			nSongDetails.current_song_id = 2
 			nMeteorSpawner.start(5.0)
 			nAnimationPlayer.play("fade_in_stars")
 	
@@ -111,6 +117,14 @@ func _on_MeteorSpawner_timeout() -> void:
 	$"3DWorld/Particles".add_child(_meteor_inst)
 
 
+func _display_halway_text() -> void:
+	nInfoBar.add_custom_text(["We're halfway there folks!", "Out of a 10, how pogged up are you right now?"])
+
+
+func _display_one_minute_text() -> void:
+	nInfoBar.add_custom_text(["Less than a minute to go!"])
+
+
 func _change_to_final_countdown() -> void:
 	nTween.interpolate_property($InitialTimer, "modulate:a", 1.0, 0.0, 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
 	nTween.interpolate_property($InitialTimer, "rect_scale", Vector2.ONE, Vector2.ZERO, 0.3, Tween.TRANS_SINE, Tween.EASE_OUT)
@@ -122,7 +136,10 @@ func _change_to_final_countdown() -> void:
 func _change_to_logo() -> void:
 	$"3DWorld/Camera".current = false
 	$"3DWorld".visible = false
+	nSongDetails.visible = false
 	nLogoCutscene.visible = true
 	nLogoCutscene.start()
 	nTween.interpolate_property(nBlackOverlay, "modulate:a", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN, 7.0)
 	nTween.start()
+	yield(get_tree().create_timer(15), "timeout")
+	get_tree().reload_current_scene()

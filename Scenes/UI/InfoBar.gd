@@ -3,11 +3,11 @@ extends Control
 export(float) var fade_time := 1.0  # how long it takes to fade in/out
 export(float) var bar_fade_sep := 0.3  # fading separation between the dark bar and text
 export(float) var text_scroll_amnt := 200.0  # how much should the quote scroll when fading in
-export(float) var text_duration := 4.0  # how long should the text last before switching
-export(float) var idle_duration := 15.0  # how long to wait before showing the next text
+export(float) var text_duration := 5.0  # how long should the text last before switching
+export(float) var idle_duration := 8.5  # how long to wait before showing the next text
 export(float) var crusher_move_dur := 1.5  # how long it takes for the crusher to go off screen
 export(int) var string_length_threshold := 100  # at what text length the text starts scrolling
-export(int) var fact_frequency := 3  # after how many common quotes does a fact show up?
+export(int) var fact_frequency := 2  # after how many common quotes does a fact show up?
 
 signal fading_in
 signal faded_out
@@ -20,24 +20,39 @@ var current_strings : Array = [] setget set_current_strings
 var crusher_id := -1 setget set_crusher_id
 var common_quote_list := [
 	[
-		"This is the very first quote!",
-#		"And this is the continuation of the last quote!",
+		"Welcome to the Fangame Awards 2021!",
+		"Grab some drinks & snacks, and enjoy the show.",
 	],
-	["Wait now we have a third? How deep is this rabbit hole?"],
-	["Ok this is getting a bit excessive, can we slow down for a moment?"],
-	["Alright this is not helping anyone, so how was your day fella?"],
-	["I lost track already, is number 7?"],
+	["This countdown was brought to you by your friendly troller, Tralexium"],
+	[
+		"This year's awards brings two new categories: Brainteaser of the Year & Beginner Game of the Year",
+		"That brings the number of awards to 20!"
+	],
+	[
+		"Today's awards ceremony has nominated exactly 75 talented individuals!",
+		"Stay tuned to find out who they are."
+	],
+	["If you're interested in contributing to future Fangame Awards, please reach out to Thenadertwo#9755 on Discord."],
 ]
 var fun_fact_list := [
 	[
-		"Dribix is the father figure of the Crushers, which were first featured in 'I Wanna Maker'  ",
-		"However, at a very early stage of the game, they used to look like this  ",
+		"Most people would think the very first IWBTG fangame was 'I Wanna be the Fangame'.",
+		"But it was actually 'Gundude Game', released on January 2008."
 	],
 	["There are currently over 10,000 published 'I Wanna be the Guy' fangames!"],
 	["The Q kills you in fangames because it is an upside down cherry."],
 	[
+		"Most IWBTG fangames nowadays run at 50fps.",
+		"However, this is due to 'I Wanna be the Fangame' accidentally setting the framerate to 50 instead of 60.",
+		"Since then it became a staple aspect of IWBTG fangames."
+	],
+	[
 		"Hi Kale, hope you are doing well.",
 		"Could you PLEASE play Boshy again? :)"
+	],
+	[
+		"Dribix is the father figure of the Crushers, which were first introduced in 'I Wanna Maker'  ",
+		"However, at a very early stage of the game, they used to look like this  ",
 	],
 	["The original 'I Wanna Kill the Kamilia' got released over 10 years ago."],
 	["Did you know? PlasmaNapkin released 'I Wanna Buy Balloons and Let Them Go' on May 15th, 2020!"],
@@ -45,14 +60,17 @@ var fun_fact_list := [
 		"Mastermaxify's Mayumushi clear clip has amassed over 100k views.", 
 		"Currently, it is the most viewed fangame moment on Twitch!"
 	],
-]
-var forced_quotes := [
 	[
-		"Welcome to the Fangame Awards 2021!",
-		"Grab some drink & snacks, and enjoy the visuals.",
-		"The main show will be worth the wait!"
-	]
+		"At the early stages on needle games, triple diamonds were considered impossible",
+		"It's been a decade since Kinata discovered that they're indeed possible."
+	],
+	[
+		"Markiplier actually cleared 'I Wanna Run the Marathon' during his livestreams.",
+		"Not many people know this, as he never published the other parts on YouTube."
+	],
+	["WOOOOOO!!! LETS GO Drake Drake Drake Drake  YAAAAYY"],
 ]
+var forced_quotes := []
 
 onready var nBar := $Bar
 onready var nLabel := $Label
