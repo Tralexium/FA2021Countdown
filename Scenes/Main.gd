@@ -44,6 +44,7 @@ var spectrum : AudioEffectInstance
 var energy : float
 var prev_energy : float
 var current_track_id := 0
+var has_started := false
 
 
 func _ready() -> void:
@@ -53,31 +54,34 @@ func _ready() -> void:
 
 # DEBUG & STARTING TIMERS
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("start_countdown"):
-		nPatBallParticles.emitting = false
-		nBubbleParticles.emitting = true
-		nAnimationPlayer.play("start_timer_sequence")
-		nInitialTimer.connect("halfway_reached", self, "_display_halway_text")
-		nInitialTimer.connect("one_minute_left", self, "_display_one_minute_text")
-		nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
-		nFinalCountdown.connect("finished", self, "_change_to_logo")
-	elif event.is_action_pressed("start_break"):
-		is_intermission = true
-		min_db = 37.0
-		nPatBallParticles.emitting = true
-		nBubbleParticles.emitting = false
-		nMusic.stream = intermission_music
-		nInitialTimer.timer_minutes = 2
-		nInitialTimer.connect("finished", self, "_intermission_finished")
-		nSongDetails.current_song_id = 3
-		nSkyBox.force_colors(intermission_skybox)
-		nInfoBar.clear_all_quotes()
-		nInfoBar.add_custom_text(
-			[
-				"Intermission time!"
-			]
-		)
-		nAnimationPlayer.play("start_timer_sequence")
+	if has_started == false:
+		if event.is_action_pressed("start_countdown"):
+			has_started = true
+			nPatBallParticles.emitting = false
+			nBubbleParticles.emitting = true
+			nAnimationPlayer.play("start_timer_sequence")
+			nInitialTimer.connect("halfway_reached", self, "_display_halway_text")
+			nInitialTimer.connect("one_minute_left", self, "_display_one_minute_text")
+			nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
+			nFinalCountdown.connect("finished", self, "_change_to_logo")
+		elif event.is_action_pressed("start_break"):
+			has_started = true
+			is_intermission = true
+			min_db = 37.0
+			nPatBallParticles.emitting = true
+			nBubbleParticles.emitting = false
+			nMusic.stream = intermission_music
+			nInitialTimer.timer_minutes = 2
+			nInitialTimer.connect("finished", self, "_intermission_finished")
+			nSongDetails.current_song_id = 3
+			nSkyBox.force_colors(intermission_skybox)
+			nInfoBar.clear_all_quotes()
+			nInfoBar.add_custom_text(
+				[
+					"Intermission time!"
+				]
+			)
+			nAnimationPlayer.play("start_timer_sequence")
 	
 	if !debug:
 		return

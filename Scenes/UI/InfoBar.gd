@@ -36,7 +36,7 @@ var common_quote_list := [
 ]
 var fun_fact_list := [
 	[
-		"Most people would think the very first IWBTG fangame was 'I Wanna be the Fangame'.",
+		"Most people would think that the very first IWBTG fangame was 'I Wanna be the Fangame'.",
 		"But it was actually 'Gundude Game', released on January 2008."
 	],
 	["There are currently over 10,000 published 'I Wanna be the Guy' fangames!"],
@@ -44,7 +44,7 @@ var fun_fact_list := [
 	[
 		"Most IWBTG fangames nowadays run at 50fps.",
 		"However, this is due to 'I Wanna be the Fangame' accidentally setting the framerate to 50 instead of 60.",
-		"Since then it became a staple aspect of IWBTG fangames."
+		"Since then, it became a staple aspect of IWBTG fangames."
 	],
 	[
 		"Hi Kale, hope you are doing well.",
