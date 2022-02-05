@@ -61,8 +61,8 @@ var fun_fact_list := [
 		"Currently, it is the most viewed fangame moment on Twitch!"
 	],
 	[
-		"At the early stages of needle games, triple diamonds were considered impossible",
-		"It's been a decade since Kinata discovered that they're indeed possible."
+		"At the early stages of needle games, triple diamonds were considered impossible.",
+		"It's been a decade since Kinata has disproved that myth."
 	],
 	[
 		"Markiplier actually cleared 'I Wanna Run the Marathon' during his livestreams.",

@@ -146,7 +146,7 @@ func _on_MeteorSpawner_timeout() -> void:
 
 
 func _display_halway_text() -> void:
-	nInfoBar.add_custom_text(["We're halfway there folks!", "Out of a 10, how pogged up are you right now?"])
+	nInfoBar.add_custom_text(["We're halfway there folks!", "From a scale of 1 to 10, how pogged up are you right now?"])
 
 
 func _display_one_minute_text() -> void:
