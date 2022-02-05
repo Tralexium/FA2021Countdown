@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/intermission_track_og.mp3-ec5861ed1542d0308dfb2b828ad6059e.mp3str"
+
+[deps]
+
+source_file="res://Assets/Music/intermission_track_og.mp3"
+dest_files=[ "res://.import/intermission_track_og.mp3-ec5861ed1542d0308dfb2b828ad6059e.mp3str" ]
+
+[params]
+
+loop=false
+loop_offset=0

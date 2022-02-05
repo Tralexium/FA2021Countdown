@@ -19,6 +19,11 @@ var music_details := [
 		"Scarlet Rose",
 		"Sound Sepher"
 	],
+	[
+		"I Wanna Shiver",
+		"Transformation",
+		"The Cinematic Orchestra"
+	],
 ]
 
 

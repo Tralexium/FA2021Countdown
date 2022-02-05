@@ -57,6 +57,11 @@ func next_color(transition_dur_ : float = 3.0) -> void:
 		nTween.start()
 
 
+func force_colors(new_gradient : Gradient) -> void:
+	cur_set = new_gradient
+	_update_color_vars()
+
+
 func _on_tween_all_completed() -> void:
 	mix_strength = 0.0
 	current_col_set += 1

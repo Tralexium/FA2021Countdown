@@ -1,6 +1,7 @@
 extends Node
 
 export(bool) var debug := false
+export(bool) var is_intermission := false
 export(float) var min_db := 30.0
 export(float) var min_freq := 0.0
 export(float) var max_freq := 15000.0
@@ -13,6 +14,9 @@ onready var music_playlist := [
 	preload("res://Assets/Music/track_3.mp3"),
 ]
 
+onready var intermission_music = preload("res://Assets/Music/intermission_track.ogg")
+onready var intermission_skybox = preload("res://Resources/env_colors_4.tres")
+
 # 3D shit
 onready var nDiscoFloor : MultiMeshInstance = $"3DWorld/DiscoFloor"
 onready var nStarSkyboxLayer : MeshInstance = $"3DWorld/StarSkyboxLayer"
@@ -22,6 +26,7 @@ onready var nLogoCutscene := $LogoCutscene
 # Particles shit
 onready var nBubbleParticles : Particles = $"3DWorld/Particles/Bubbles"
 onready var nLeafParticles : Particles = $"3DWorld/Particles/Leafs"
+onready var nPatBallParticles : Particles = $"3DWorld/Particles/PatBalls"
 onready var nMeteorSpawner : Timer = $"3DWorld/Particles/MeteorSpawner"
 var scnMeteor : PackedScene = preload("res://Scenes/3D/Meteor.tscn")
 
@@ -42,21 +47,37 @@ var current_track_id := 0
 
 
 func _ready() -> void:
-#	Engine.time_scale = 5.0
+#	Engine.time_scale = 20.0
 	spectrum = AudioServer.get_bus_effect_instance(0,0)
 
 
 # DEBUG & STARTING TIMERS
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("start_countdown"):
+		nPatBallParticles.emitting = false
+		nBubbleParticles.emitting = true
 		nAnimationPlayer.play("start_timer_sequence")
 		nInitialTimer.connect("halfway_reached", self, "_display_halway_text")
 		nInitialTimer.connect("one_minute_left", self, "_display_one_minute_text")
 		nInitialTimer.connect("last_ten_sec", self, "_change_to_final_countdown")
 		nFinalCountdown.connect("finished", self, "_change_to_logo")
 	elif event.is_action_pressed("start_break"):
-		# TODO
-		pass
+		is_intermission = true
+		min_db = 37.0
+		nPatBallParticles.emitting = true
+		nBubbleParticles.emitting = false
+		nMusic.stream = intermission_music
+		nInitialTimer.timer_minutes = 2
+		nInitialTimer.connect("finished", self, "_intermission_finished")
+		nSongDetails.current_song_id = 3
+		nSkyBox.force_colors(intermission_skybox)
+		nInfoBar.clear_all_quotes()
+		nInfoBar.add_custom_text(
+			[
+				"Intermission time!"
+			]
+		)
+		nAnimationPlayer.play("start_timer_sequence")
 	
 	if !debug:
 		return
@@ -102,6 +123,9 @@ func _change_color_schemes() -> void:
 
 
 func _on_Music_finished() -> void:
+	if is_intermission:
+		return
+	
 	current_track_id += 1
 	if current_track_id < music_playlist.size():
 		_change_color_schemes()
@@ -142,4 +166,12 @@ func _change_to_logo() -> void:
 	nTween.interpolate_property(nBlackOverlay, "modulate:a", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN, 7.0)
 	nTween.start()
 	yield(get_tree().create_timer(15), "timeout")
+	get_tree().reload_current_scene()
+
+
+func _intermission_finished() -> void:
+	nTween.interpolate_property(nBlackOverlay, "modulate:a", 0.0, 1.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
+	nTween.interpolate_property(nInitialTimer, "modulate:a", 1.0, 0.0, 5.0, Tween.TRANS_SINE, Tween.EASE_IN)
+	nTween.start()
+	yield(get_tree().create_timer(7), "timeout")
 	get_tree().reload_current_scene()

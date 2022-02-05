@@ -54,7 +54,7 @@ var fun_fact_list := [
 		"Dribix is the father figure of the Crushers, which were first introduced in 'I Wanna Maker'.  ",
 		"However, at a very early stage of the game, they used to look like this.  ",
 	],
-	["The original 'I Wanna Kill the Kamilia' got released over 10 years ago."],
+	["Michael O'Reilly (Kayin), creator of 'I Wanna be the Guy', has also voiced The Guy."],
 	["Did you know? PlasmaNapkin released 'I Wanna Buy Balloons and Let Them Go' on May 15th, 2020!"],
 	[
 		"Mastermaxify's Mayumushi clear clip has amassed over 100k views.", 
@@ -99,6 +99,11 @@ func fade_next() -> void:
 
 func add_custom_text(forced_quotes_ : Array) -> void:
 	forced_quotes.append(forced_quotes_)
+
+
+func clear_all_quotes() -> void:
+	common_quote_list.clear()
+	fun_fact_list.clear()
 
 
 func stop() -> void:
@@ -163,8 +168,11 @@ func _fade_in_next() -> void:
 			_get_next_forced_quote()
 		elif quote_updates > 0 and quote_updates % fact_frequency == 0 && fun_fact_list.empty() == false:
 			_get_next_fact()
-		else:
+		elif common_quote_list.empty() == false:
 			_get_next_quote()
+		else:
+			paused = true
+			return
 	else:
 		remaining_quotes -= 1
 		var _size = current_strings.size() - 1

@@ -1,11 +1,12 @@
 extends HBoxContainer
 
-export(int, 0, 60) var timer_minutes
-export(int, 0, 59) var timer_seconds
+export(int, 0, 60) var timer_minutes setget set_timer_minutes
+export(int, 0, 59) var timer_seconds setget set_timer_seconds
 
 signal halfway_reached
 signal one_minute_left
 signal last_ten_sec
+signal finished
 
 onready var nMinuteOne := $Minute
 onready var nMinuteTwo := $Minute2
@@ -14,16 +15,13 @@ onready var nSecondOne := $Second
 onready var nSecondTwo := $Second2
 onready var nTimer := $Timer
 
+var is_ready := false
 var paused := true
 
 
 func _ready() -> void:
-	nMinuteOne.set_current_number(floor(timer_minutes / 10))
-	nMinuteTwo.set_current_number(timer_minutes % 10)
-	
-	# Setup seconds
-	nSecondOne.set_current_number(floor(timer_seconds / 10))
-	nSecondTwo.set_current_number(timer_seconds % 10)
+	is_ready = true
+	_set_all_numbers()
 
 
 func start_timer() -> void:
@@ -48,18 +46,41 @@ func _count_down() -> void:
 	elif timer_seconds == 0 and timer_minutes == 0:
 		# Countdown finished
 		pause_timer()
-		_set_all_current_numbers()
+		_set_all_numbers_with_anim()
+		emit_signal("finished")
 		return
 	
-	_set_all_current_numbers()
+	_set_all_numbers_with_anim()
 
 
-func _set_all_current_numbers():
-	# Setup minutes
+func set_timer_minutes(new_val: int) -> void:
+	timer_minutes = new_val
+	_set_all_numbers()
+
+
+func set_timer_seconds(new_val: int) -> void:
+	timer_seconds = new_val
+	_set_all_numbers()
+
+
+func _set_all_numbers():
+	if !is_ready:
+		return
+	
+	nMinuteOne.set_current_number(floor(timer_minutes / 10))
+	nMinuteTwo.set_current_number(timer_minutes % 10)
+	
+	nSecondOne.set_current_number(floor(timer_seconds / 10))
+	nSecondTwo.set_current_number(timer_seconds % 10)
+
+
+func _set_all_numbers_with_anim():
+	if !is_ready:
+		return
+	
 	nMinuteOne.set_with_animation(floor(timer_minutes / 10))
 	nMinuteTwo.set_with_animation(timer_minutes % 10)
 	
-	# Setup seconds
 	nSecondOne.set_with_animation(floor(timer_seconds / 10))
 	nSecondTwo.set_with_animation(timer_seconds % 10)
 
